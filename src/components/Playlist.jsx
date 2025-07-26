@@ -31,7 +31,7 @@ export default function Playlist() {
   const [activeCategory, setActiveCategory] = useState("all");
   const [repeatMode, setRepeatMode] = useState(false);
 
-  const [contextMenu, setContextMenu] = useState(null); 
+  const [contextMenu, setContextMenu] = useState(null);
 
   const fileInputRef = useRef(null);
   const wavePlayerRef = useRef(null);
@@ -43,7 +43,7 @@ export default function Playlist() {
       let remote = [];
       try {
         remote = JSON.parse(localStorage.getItem(STORAGE_KEY))?.filter(Boolean) || [];
-      } catch {}
+      } catch { }
       const ids = await listAllSongIds();
       const local = [];
       for (const id of ids) {
@@ -148,7 +148,7 @@ export default function Playlist() {
       if (["INPUT", "TEXTAREA"].includes(e.target.tagName)) return;
       if (e.code === "Space") { e.preventDefault(); wavePlayerRef.current?.togglePlay(); }
       else if (e.code === "ArrowRight") { e.preventDefault(); handleNext(true); }
-      else if (e.code === "ArrowLeft")  { e.preventDefault(); handlePrev(true); }
+      else if (e.code === "ArrowLeft") { e.preventDefault(); handlePrev(true); }
     };
     window.addEventListener("keydown", h);
     return () => window.removeEventListener("keydown", h);
@@ -163,6 +163,15 @@ export default function Playlist() {
   /* ---------- UI ---------- */
   return (
     <div className="playlist-container" onClick={() => setContextMenu(null)}>
+      <h1
+        style={{
+          fontSize: "2.2em",
+          lineHeight: "1.1",
+          textAlign: "start",
+        }}
+      >
+        🎧 موزیک پلیر
+      </h1>
       {/* تم */}
       <div className="header">
         <button className="theme-toggle" onClick={() => setDarkMode((p) => !p)}>
@@ -196,7 +205,7 @@ export default function Playlist() {
                 </div>
                 <div className="song-controls" style={{ marginLeft: 10 }} onClick={(e) => e.stopPropagation()}>
                   <button className="btn play-btn" onClick={() => setCurrentSong(s)} title="پخش">▶️</button>
-                  <button className="btn add-btn"  onClick={() => handleAddFromSearch(s)} title="افزودن">➕</button>
+                  <button className="btn add-btn" onClick={() => handleAddFromSearch(s)} title="افزودن">➕</button>
                 </div>
               </li>
             ))}
@@ -211,7 +220,7 @@ export default function Playlist() {
           value={activeCategory}
           onChange={(e) => setActiveCategory(e.value)}
           options={categoryOptions}
-          placeholder="انتخاب دسته" style={{ marginRight:4}}
+          placeholder="انتخاب دسته" style={{ marginRight: 4 }}
           className={`p-dropdown-sm rtl-dropdown ${darkMode ? "p-input-filled" : ""}`}
         />
       </div>
@@ -239,7 +248,7 @@ export default function Playlist() {
                           {s.category && <span style={{ fontSize: 11, color: "var(--subtext)" }}>({s.category})</span>}
                         </span>
                         <div className="song-controls" onClick={(e) => e.stopPropagation()}>
-                          <button className="btn play-btn"   onClick={() => setCurrentSong(s)} title="پخش">▶️</button>
+                          <button className="btn play-btn" onClick={() => setCurrentSong(s)} title="پخش">▶️</button>
                           <button className="btn remove-btn" onClick={() => handleRemove(s.id)} title="حذف">❌</button>
                         </div>
                       </li>
